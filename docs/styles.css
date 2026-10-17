@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Web Security Demo</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <div class="container">
+        <p class="eyebrow">Defensive Security Education</p>
+        <h1>Web Security Demo</h1>
+        <p class="subtitle">
+          Safe examples for understanding browser cookie risks, XSS, and mitigation strategies.
+        </p>
+        <div class="cta-row">
+          <a class="button primary" href="#demo">Open demo</a>
+          <a class="button secondary" href="./analysis.md">Read analysis</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="panel">
+        <h2>What this project covers</h2>
+        <ul>
+          <li>How malicious scripts can interact with cookies and local storage</li>
+          <li>Why HttpOnly, Secure, and SameSite matter</li>
+          <li>How CSP and input sanitization reduce XSS risk</li>
+          <li>How secure session handling can protect user accounts</li>
+        </ul>
+      </section>
+
+      <section id="demo" class="panel demo-panel">
+        <h2>Safe local demo</h2>
+        <p>
+          This demo mirrors cookie collection activity only in a local, harmless way. It logs to the console and the page,
+          but it does not exfiltrate data anywhere.
+        </p>
+        <button id="run-demo" class="button primary">Run demo</button>
+        <pre id="demo-output">Waiting to run...</pre>
+      </section>
+
+      <section class="panel">
+        <h2>Recommended controls</h2>
+        <div class="grid">
+          <div>
+            <h3>Cookies</h3>
+            <p>Use HttpOnly, Secure, and SameSite attributes on sensitive session cookies.</p>
+          </div>
+          <div>
+            <h3>XSS prevention</h3>
+            <p>Use input validation, output encoding, and strict Content Security Policy (CSP).</p>
+          </div>
+          <div>
+            <h3>Session handling</h3>
+            <p>Rotate tokens after login and on privilege changes; keep sessions short-lived.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="../assets/demo.js"></script>
+    <script>
+      document.getElementById('run-demo').addEventListener('click', function () {
+        const output = document.getElementById('demo-output');
+        const cookieString = 'c_user=alice; xs=sessiontoken; theme=dark; sb=abc';
+        if (typeof window.safeCollectCookies === 'function') {
+          const result = window.safeCollectCookies(cookieString);
+          output.textContent = JSON.stringify(result, null, 2);
+        } else {
+          output.textContent = 'Demo function unavailable.';
+        }
+      });
+    </script>
+  </body>
+</html>

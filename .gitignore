@@ -1,0 +1,36 @@
+const fs = require('fs');
+const assert = require('assert');
+const vm = require('vm');
+
+const script = fs.readFileSync('./assets/demo.js', 'utf8');
+const logs = [];
+const fakeDocument = {
+  cookie: 'c_user=alice; xs=sessiontoken; theme=dark; sb=abc',
+  getElementById: function () {
+    return {
+      textContent: ''
+    };
+  }
+};
+
+const context = {
+  console: {
+    log: function () {
+      logs.push(Array.from(arguments).join(' '));
+    }
+  },
+  document: fakeDocument,
+  window: {},
+  setTimeout: setTimeout,
+  clearTimeout: clearTimeout
+};
+
+vm.createContext(context);
+vm.runInContext(script, context);
+
+assert(script.includes('sendBeacon') === false, 'No sendBeacon usage should exist in the safe demo');
+assert(script.includes('fetch(') === false, 'No fetch usage should exist in the safe demo');
+assert(script.includes('new Image()') === false, 'No image exfiltration should exist in the safe demo');
+assert(logs.some((log) => log.includes('Safe local demo: collected cookie values')) === true, 'The demo should log a safe message');
+
+console.log('Safe demo smoke test passed.');

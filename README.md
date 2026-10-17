@@ -1,18 +1,31 @@
 # web-security-demo
 
-This repository is a safe, educational demonstration and reference about browser cookie security, XSS risks, and mitigations.
+This repository is a safe, educational demonstration of browser security concepts related to cookies, XSS risks, and defensive hardening.
 
-IMPORTANT: All demo code is non-malicious. Do NOT use any of these examples on third-party sites or for any unauthorized purpose. This project exists for defensive education and safe local testing only.
+Overview
+- The repository intentionally avoids malicious or exploit-ready code.
+- It demonstrates how cookie reading can become dangerous when JavaScript runs in an unsafe context.
+- It focuses on prevention, detection, and secure practices.
 
-Contents
-- SAFE-DEMO/code.js — harmless demo that simulates cookie collection but only logs locally.
-- docs/analysis.md — explains why cookie-stealing scripts are malicious and how they work at a high level (no executable exploit code).
-- docs/mitigations.md — practical recommendations for preventing cookie theft and XSS.
+Included
+- README.md — project overview and usage notes.
+- SAFE-DEMO/code.js — harmless local-only demonstration.
+- docs/analysis.md — high-level explanation of how malicious cookie theft works.
+- docs/mitigations.md — concrete defense recommendations.
+- docs/index.html — GitHub Pages-style landing page for the project.
+- docs/styles.css — styling for the landing page.
+- assets/demo.js — browser demo that safely logs cookie data locally.
+- tests/safe_demo_test.js — a smoke test for the demo script.
 
-How to use
-1. Clone the repository locally.
-2. Review the documentation in docs/.
-3. Open SAFE-DEMO/code.js in a controlled environment for learning; it only logs to the console and makes no network requests.
+Local preview
+1. Download or clone the repository.
+2. Open docs/index.html in a browser.
+3. Or run the smoke test:
+   npm test -- --runInBand
+   (if you add a package.json in the future)
+
+Security note
+This repository is for defensive learning only. It does not include working exfiltration payloads, does not send anything to a remote server, and is not intended for unauthorized or illegal use.
 
 License
-This repository is licensed under the MIT License.
+MIT License.
